@@ -32,7 +32,7 @@ int tam_in;
 int aux_estado;
 //----------------------------------------------------------------------------------------------
 //Metodo para busqueda de simbolos en la matriz de la maquina de turing
-int busqueda();
+int busqueda(char simbolo);
 
 //Main
 int main(){
