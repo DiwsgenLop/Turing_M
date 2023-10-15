@@ -1,5 +1,7 @@
 //Lbreira para la lectura del archivo de texto
 #include <stdio.h>
+//Para la libreria de las cadenas 
+#include <string.h>
 
 //Cinta con un maximo de 2000 caracteres
 #define max_cinta 2000
@@ -18,12 +20,11 @@ TablaMT MT[100][100];
 char cinta[max_cinta];
 //Un indice para ver donde va recorriendo en la cinta
 int indice_cinta=0;
-//Y una entrada max de 2000 caracteres entre 4
-char entrada[max_cinta/4];
-//----------------------------------------------------------------------------------------------
 //Declaramos variables para guardar los datos de nuestro archivo
 int No_estado, No_simbolo;
-char Caracteres_cinta;
+char Caracteres_cinta[] = "";
+//La entrada del usuario
+char entrada[max_cinta/4] = "";
 //Estados iniciales y finales (int)
 int estado_inicial, estado_final;
 //Tam_in es para saber el tamaño de la entrada del usuario
@@ -45,11 +46,13 @@ int main(){
     }
     //Si se puede abrir el archivo
     else{
-        fscanf(archivo,"%d",&No_estado);
-        fscanf(archivo,"%d",&No_simbolo);
-        fscanf(archivo,"%c",&Caracteres_cinta);
-        fscanf(archivo,"%d",&estado_inicial);
-        fscanf(archivo,"%d",&estado_final);
+        fscanf(archivo,"%d",&No_estado); //Numero de estados totales
+        fscanf(archivo,"%d",&No_simbolo); //Numero de simbolos totales
+        fscanf(archivo,"%s",&Caracteres_cinta); //Caracteres de la cinta
+        fscanf(archivo,"%d",&estado_inicial); //Estado inicial
+        fscanf(archivo,"%d",&estado_final); //Estado final
+        //Lemos la entrada del usuario
+        fscanf(archivo,"%s",&entrada);
         //Leemos los datos del archivo de texto
         for(int i=0;i<No_estado;i++){
             for(int j=0;j<No_simbolo;j++){
@@ -58,15 +61,34 @@ int main(){
                 fscanf(archivo,"%d",&MT[i][j].dir);
             }
         }
-        //Lemos la entrada del usuario
-        fscanf(archivo,"%d",&entrada);
+
     }
     //Cerramos el archivo de texto
     fclose(archivo);
+//Imprimir caracteres 
+
+    printf("\n No. de estados: %d",No_estado);
+    printf("\n No. de simbolos: %d",No_simbolo);
+    printf("\n Caracteres de la cinta: %s",Caracteres_cinta);
+    printf("\n Estado inicial: %d",estado_inicial);
+    printf("\n Estado final: %d",estado_final);
+    printf("\n Entrada: %s",entrada);
+
+//Imprimir matriz
+    printf("\n Matriz de la maquina de turing: \n");
+    for(int i=0;i<No_estado;i++){
+        for(int j=0;j<No_simbolo;j++){
+            printf("Estado: %d",MT[i][j].estado);
+            printf("\n Simbolo: %c",MT[i][j].simbolo);
+            printf("\n Direccion: %d",MT[i][j].dir);
+            printf("\t");
+        }
+        printf("\n");
+    }
 
 //Recorremos la cinta para llenarlo con espacios en blanco
     for(int i=0;i<max_cinta;i++){
-        cinta[i]=' '; //cinta[i]='\0'; \0 es para representar un espacio en blanco
+        cinta[i]=' '; //Tambien podemos representarlo como cinta[i]='\0'; \0 es para representar un espacio en blanco
     }
 //El indice de la cinta apuntara a la mitad de esta
     indice_cinta=max_cinta/2;
@@ -104,10 +126,10 @@ int aux_estado=estado_inicial;
     }while((aux_estado!=estado_final)&&(bandera==0));
 
 //Ahora queda decir si fue aceptada la cadena o no
-    if(aux_estado==estado_final){
-        printf("La cadena fue aceptada");
+    if((estado_final!=0) && (aux_estado==estado_final)){
+        printf("\n La cadena fue aceptada\n");
     }else{
-        printf("La cadena no fue aceptada");
+        printf("\n La cadena no fue aceptada\n");
     }
     return 0;
 
