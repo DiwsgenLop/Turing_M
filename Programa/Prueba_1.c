@@ -48,11 +48,11 @@ int main(){
     else{
         fscanf(archivo,"%d",&No_estado); //Numero de estados totales
         fscanf(archivo,"%d",&No_simbolo); //Numero de simbolos totales
-        fscanf(archivo,"%s",&Caracteres_cinta); //Caracteres de la cinta
+        fscanf(archivo,"%s",Caracteres_cinta); //Caracteres de la cinta
         fscanf(archivo,"%d",&estado_inicial); //Estado inicial
         fscanf(archivo,"%d",&estado_final); //Estado final
         //Lemos la entrada del usuario
-        fscanf(archivo,"%s",&entrada);
+        fscanf(archivo,"%s",entrada);
         //Leemos los datos del archivo de texto
         for(int i=0;i<No_estado;i++){
             for(int j=0;j<No_simbolo;j++){
