@@ -53,12 +53,17 @@ int main(){
         fscanf(archivo,"%d",&estado_final); //Estado final
         //Lemos la entrada del usuario
         fscanf(archivo,"%s",entrada);
-        //Leemos los datos del archivo de texto
+        //Lectura de estados, simbolos y direcciones
         for(int i=0;i<No_estado;i++){
             for(int j=0;j<No_simbolo;j++){
-                fscanf(archivo,"%d",&MT[i][j].estado);
-                fscanf(archivo,"%c",&MT[i][j].simbolo);
-                fscanf(archivo,"%d",&MT[i][j].dir);
+                //Hay un error al momento de leerlo en la matriz, no se porque
+                fscanf(archivo," %d",&MT[i][j].estado);
+                // Leer el espacio en blanco antes del carácter
+                //fgetc(archivo);
+                fscanf(archivo," %c",&MT[i][j].simbolo);
+                // Leer el espacio en blanco después del carácter
+                //fgetc(archivo);
+                fscanf(archivo, " %d",&MT[i][j].dir);
             }
         }
 
@@ -78,12 +83,13 @@ int main(){
     printf("\n Matriz de la maquina de turing: \n");
     for(int i=0;i<No_estado;i++){
         for(int j=0;j<No_simbolo;j++){
-            printf("Estado: %d",MT[i][j].estado);
+            printf("\n Estado: %d",MT[i][j].estado);
             printf("\n Simbolo: %c",MT[i][j].simbolo);
             printf("\n Direccion: %d",MT[i][j].dir);
             printf("\t");
+            
         }
-        printf("\n");
+        printf("\n\n");
     }
 
 //Recorremos la cinta para llenarlo con espacios en blanco
@@ -137,7 +143,7 @@ int aux_estado=estado_inicial;
 
 //Funcion para buscar el simbolo en la matriz de la maquina de turing
 int busqueda(char simbolo){ 
-    int pos_simbolo=0;
+    int pos_simbolo=-1;
     for(int i=0;i<No_simbolo;i++){
         if(MT[aux_estado][i].simbolo==simbolo){
             pos_simbolo=i;
