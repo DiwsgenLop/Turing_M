@@ -32,6 +32,8 @@ int indice_cinta=cinta_maxima/2; //Tendra espacio hacia adelante o atras
 //----------------------------------------------------------------------------------------------
 //Metodo para busqueda de simbolos en la matriz de la maquina de turing
 int busqueda(char simbolo);
+//Metodo para imprimir la cinta con cada ejecucion de la maquina de turing
+void imprimir_cinta(int aux_tam_in,int temporal_indice); 
 
 //Main
 int main(){
@@ -65,29 +67,6 @@ int main(){
     }
     //Cerramos el archivo de texto
     fclose(archivo);
-    /* Solo veremos los caracteres de la cinta
-//Imprimir caracteres 
-
-    printf("\n No. de estados: %d",No_estado);
-    printf("\n No. de simbolos: %d",No_simbolo);
-    printf("\n Caracteres de la cinta: %s",Caracteres_cinta);
-    printf("\n Estado inicial: %d",estado_inicial);
-    printf("\n Estado final: %d",estado_final);
-    printf("\n Entrada: %s",entrada);
-
-//Imprimir matriz
-    printf("\n Matriz de la maquina de turing: \n");
-    for(int i=0;i<No_estado;i++){
-        for(int j=0;j<No_simbolo;j++){
-            printf("\n Estado: %d",MT[i][j].estado);
-            printf("\n Simbolo: %c",MT[i][j].simbolo);
-            printf("\n Direccion: %d",MT[i][j].dir);
-            printf("\t");
-            
-        }
-        printf("\n\n");
-    }
-    */
 //Recorremos la cinta para llenarlo con espacios en blanco
     for(int i=0;i<cinta_maxima;i++){
         cinta[i]='_'; //Tambien podemos representarlo como cinta[i]='\0'; \0 es para representar un espacio en blanco
@@ -107,6 +86,9 @@ int main(){
     int aux_estado=estado_inicial;
     //Ahora recorremos la cinta con un do while mientras la bandera sea 0 y el estado no sea -1 si no se detiene
     int pos_simbolo=0;
+    //Variables auxiliares para solo imprimir el tamaño de la cadena
+    int aux_tam_in=indice_cinta+tam_in;
+    int temporal_indice=indice_cinta;
     do{
         //Retornamos la posicion de el simbolo en la matriz
         pos_simbolo=busqueda(cinta[indice_cinta]);
@@ -116,6 +98,9 @@ int main(){
             cinta[indice_cinta]=MT[aux_estado][pos_simbolo].simbolo;
             indice_cinta=indice_cinta+MT[aux_estado][pos_simbolo].dir;
             aux_estado=MT[aux_estado][pos_simbolo].estado;
+            //Imprimimos la cinta actualizada
+            printf("\nLos valores de la cinta son:\n");
+            imprimir_cinta(aux_tam_in,temporal_indice);
         }else{
             //Si el simbolo es -1 entonces la maquina de turing se detiene
             bandera=1;
@@ -127,12 +112,9 @@ int main(){
 
 //Ahora queda decir si fue aceptada la cadena o no
     if((estado_final!=0) && (aux_estado==estado_final)){
-        printf("\nLa cadena fue aceptada\nCadena final\n");
-         for (int j=0;j<cinta_maxima;j++){
-            if(cinta[j]!='_'){
+        printf("\nLa cadena fue aceptada se encontro un estado final\nCadena final\n");
+         for (int j=temporal_indice;j<aux_tam_in;j++)
             printf("[%c]",cinta[j]);
-            }
-        }
         printf("\n");
     }else{
         printf("\n La cadena no fue aceptada\n");
@@ -151,4 +133,12 @@ int busqueda(char simbolo){
     }
     return -1;
 
+}
+
+//Funcion para imprimir la cinta con cada paso
+void imprimir_cinta(int aux_tam_in,int temporal_indice){
+    printf("\nLos valores de la cinta son:\n");
+    for (int j=temporal_indice;j<aux_tam_in;j++)
+        printf("[%c]",cinta[j]);
+    printf("\n");
 }
