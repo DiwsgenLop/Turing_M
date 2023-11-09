@@ -32,7 +32,7 @@ int indice_cinta=cinta_maxima/2; //Tendra espacio hacia adelante o atras
 
 //Metodo de busqueda de inidice para simbolo
 int busqueda(char simbolo);
-
+void imprimir_cinta(int aux_tam_in,int temporal_indice); //Metodo para imprimir la cinta con cada ejecucion de la maquina de turing
 int main(){
     //Abrimos un archivo de texto
     FILE *archivo;
@@ -123,7 +123,9 @@ for (int j = indice_cinta; j < indice_cinta+tam_in; j++)
     printf("Estado donde iniciara: %d\n",aux_estado);
     //Ahora recorremos la cinta con un do while mientras la bandera sea 0 y el estado no sea -1 si no se detiene
     int pos_simbolo=0;
-
+    //Variables auxiliares para solo imprimir el tamaño de la cadena
+    int aux_tam_in=indice_cinta+tam_in;
+    int temporal_indice=indice_cinta;
     do{
         //Retornamos la posicion de el simbolo en la matriz
         pos_simbolo=busqueda(cinta[indice_cinta]);
@@ -137,7 +139,9 @@ for (int j = indice_cinta; j < indice_cinta+tam_in; j++)
             //El ultimo en ser cambiado sera el estado para que no altere los otros cambios
             aux_estado=MT[aux_estado][pos_simbolo].estado;
             printf("Estado actual: %d\n",aux_estado);
-            
+            //Imprimimos el estado de la cinta
+            printf("\nLos valores de la cinta son:\n");
+            imprimir_cinta(aux_tam_in,temporal_indice);
         }else{
             //Si el simbolo es -1 entonces la maquina de turing se detiene
             bandera=1;
@@ -150,7 +154,12 @@ for (int j = indice_cinta; j < indice_cinta+tam_in; j++)
     
 //Ahora queda decir si fue aceptada la cadena o no
     if((estado_final!=0) && (aux_estado==estado_final)){
-        printf("\n La cadena fue aceptada\n");
+         printf("\nLa cadena fue aceptada se encontro con un estado final\nCadena resultante\n");
+         for (int j = temporal_indice; j < aux_tam_in; j++)
+            {
+                printf("[%c]",cinta[j]);
+            }
+        printf("\n");
     }else{
         printf("\n La cadena no fue aceptada\n");
     }
@@ -166,4 +175,13 @@ int busqueda(char simbolo){
     }
     return -1;
 
+}
+//Imprimir la cinta actuailizada con cada paso 
+void imprimir_cinta(int aux_tam_in,int temporal_indice){
+
+    for (int j = temporal_indice; j < aux_tam_in; j++)
+    {
+            printf("[%c]",cinta[j]);
+    }
+    printf("\n");
 }
